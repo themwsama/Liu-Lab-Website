@@ -1,34 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import HomeHero from './components/HomeHero.jsx'
+import HomeAbout from './components/HomeAbout.jsx'
+import ProjectsSection from './components/ProjectsSection.jsx'
+import NewsSection from './components/NewsSection.jsx'
+import PublicationsSection from './components/PublicationsSection.jsx'
+import SiteFooter from './components/SiteFooter.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const sections = [
+    { id: 'home', label: 'Home' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'news', label: 'News' },
+    { id: 'publications', label: 'Publications' },
+    { id: 'people', label: 'People' },
+    { id: 'contact', label: 'Contact' },
+  ]
+
+  const [activeSection, setActiveSection] = useState('home')
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    const NAV_HEIGHT = 84
+    const y = el.getBoundingClientRect().top + window.pageYOffset - NAV_HEIGHT
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    const onScroll = () => {
+      const offsets = sections.map((section) => {
+        const el = document.getElementById(section.id)
+        if (!el) return { id: section.id, top: Number.POSITIVE_INFINITY }
+        return { id: section.id, top: Math.abs(el.getBoundingClientRect().top) }
+      })
+      const nearest = offsets.reduce((best, cur) =>
+        cur.top < best.top ? cur : best,
+      )
+      setActiveSection(nearest.id)
+    }
+
+    window.addEventListener('scroll', onScroll)
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app-root">
+      <main className="page">
+        <HomeHero
+          sections={sections}
+          activeSection={activeSection}
+          onNavClick={scrollToSection}
+        />
+        <HomeAbout />
+        <ProjectsSection />
+        <NewsSection />
+        <PublicationsSection />
+        <SiteFooter />
+      </main>
+    </div>
   )
 }
 
