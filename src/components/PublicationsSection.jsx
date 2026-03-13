@@ -1,35 +1,88 @@
 import '../App.css'
 
+const publications = [
+  {
+    id: 'ophthal-2024',
+    title:
+      'Liquid biopsy for proliferative diabetic retinopathy: single-cell transcriptomics of human vitreous reveals inflammatory T cell signature',
+    authors:
+      'R Haliyur, D Parkinson, F Ma, J Xu, Q Li, Y Huang, L Tsoi, R Bogle, J Liu, J Gudjonsson, R C Rao',
+    meta: 'Ophthalmology Science, 10/2024',
+    image: import.meta.env.BASE_URL + 'Multimodal AI in T1D (MAI - T1D).png',
+  },
+  {
+    id: 'cntools-2024',
+    title:
+      'CNTools: A computational toolbox for cellular neighborhood analysis from multiplexed images',
+    authors:
+      'Y Tao, F Feng, X Luo, C Reihsmann, A Hopkirk, J Cartailler, M Brissova, S Parker, D Saunders, J Liu',
+    meta: 'PLoS Computational Biology, 08/2024',
+    image: import.meta.env.BASE_URL + 'Genomic Literature Knowledge Base.png',
+  },
+  {
+    id: 'cochlea-2024',
+    title:
+      '3D reconstruction of the mouse cochlea from scRNA-seq data suggests morphogen-based principles in apex-to-base specification',
+    authors: 'S Wang, S Chakraborty, Y Fu, M Lee, J Liu, J Waldhaus',
+    meta: 'Developmental Cell, 06/2024',
+    image: import.meta.env.BASE_URL + 'Genomic Knowledge Graph.png',
+  },
+  {
+    id: 'inner-ear-2024',
+    title:
+      'Mapping the developmental potential of mouse inner ear organoids at single-cell resolution',
+    authors: 'J Waldhaus*, Linghua Jiang*, L Liu, J Liu, R Duncan',
+    meta: 'iScience, 02/2024',
+    image: import.meta.env.BASE_URL + 'Ecor_Cover.jpg',
+  },
+]
+
 function PublicationsSection() {
   return (
     <section
       id="publications"
       className="page-section page-section--publications"
     >
-      <div className="page-section-inner">
-        <header className="section-header">
-          <h2 className="section-title">Publications</h2>
-          <p className="section-subtitle">Selected recent work from the lab.</p>
-        </header>
-        <div className="pub-list">
-          <article className="pub-item">
-            <p className="pub-title">
-              Title of a recent paper about large-scale genome engineering.
-            </p>
-            <p className="pub-meta">Liu M. et al. · Journal Name · 2025</p>
-          </article>
-          <article className="pub-item">
-            <p className="pub-title">
-              A study on functional genomics and disease mechanisms.
-            </p>
-            <p className="pub-meta">Liu M. et al. · Journal Name · 2024</p>
-          </article>
-          <article className="pub-item">
-            <p className="pub-title">
-              Computational models for regulatory element design.
-            </p>
-            <p className="pub-meta">Liu M. et al. · Journal Name · 2023</p>
-          </article>
+      <div className="page-section-inner pub-layout">
+        <aside className="pub-sidebar">
+          <h2 className="pub-title-heading">Publications</h2>
+        </aside>
+
+        <div className="pub-main">
+          <div className="pub-list-and-cta">
+            <div className="pub-list">
+              {publications.map((pub) => (
+                <article key={pub.id} className="pub-card">
+                  <div className="pub-card-content">
+                    <h3 className="pub-card-title">{pub.title}</h3>
+                    <p className="pub-card-authors">{pub.authors}</p>
+                    <div className="pub-card-meta-row">
+                      <span className="pub-card-meta-text">{pub.meta}</span>
+                      <button type="button" className="pub-pill">
+                        DOI
+                      </button>
+                      <button type="button" className="pub-pill">
+                        PMID
+                      </button>
+                    </div>
+                  </div>
+                  <div className="pub-card-image-wrapper">
+                    <img
+                      src={pub.image}
+                      alt={pub.title}
+                      className="pub-card-image"
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="pub-see-more-column">
+              <button type="button" className="pub-see-more-btn">
+                See More
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
