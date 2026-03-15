@@ -11,7 +11,7 @@ const socialLogos = {
 
 function HomeAbout() {
   return (
-    <section className="page-section page-section--home-about">
+    <section id="about" className="page-section page-section--home-about">
       <div className="page-section-inner home-about-layout">
         <div className="home-about-left">
           <div className="home-about-text">

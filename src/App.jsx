@@ -6,6 +6,7 @@ import ProjectsSection from './components/ProjectsSection.jsx'
 import NewsSection from './components/NewsSection.jsx'
 import PublicationsSection from './components/PublicationsSection.jsx'
 import PeopleSection from './components/PeopleSection.jsx'
+import JoinUsSection from './components/JoinUsSection.jsx'
 import SiteFooter from './components/SiteFooter.jsx'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState('home')
   const [activeSection, setActiveSection] = useState('home')
+  const [atTopOfHome, setAtTopOfHome] = useState(true)
   const [pendingScrollTarget, setPendingScrollTarget] = useState(null)
 
   const scrollToSection = (id) => {
@@ -32,8 +34,8 @@ function App() {
   }
 
   const handleNavClick = (id) => {
-    if (id === 'people') {
-      setCurrentPage('people')
+    if (id === 'people' || id === 'join-us') {
+      setCurrentPage(id)
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
     }
@@ -59,15 +61,22 @@ function App() {
     }
 
     const onScroll = () => {
+      const aboutEl = document.getElementById('about')
+      const aboutTop = aboutEl ? aboutEl.getBoundingClientRect().top : Infinity
+      setAtTopOfHome(aboutTop > 120)
+
+      const viewportTop = 150
       const offsets = sections.map((section) => {
         const el = document.getElementById(section.id)
-        if (!el) return { id: section.id, top: Number.POSITIVE_INFINITY }
-        return { id: section.id, top: Math.abs(el.getBoundingClientRect().top) }
+        if (!el) return { id: section.id, top: -Infinity }
+        return { id: section.id, top: el.getBoundingClientRect().top }
       })
-      const nearest = offsets.reduce((best, cur) =>
-        cur.top < best.top ? cur : best,
-      )
-      setActiveSection(nearest.id)
+      const candidates = offsets.filter((o) => o.top <= viewportTop)
+      const active =
+        candidates.length > 0
+          ? candidates.reduce((best, cur) => (cur.top > best.top ? cur : best))
+          : { id: 'home' }
+      setActiveSection(active.id)
     }
 
     window.addEventListener('scroll', onScroll)
@@ -90,11 +99,11 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, pendingScrollTarget])
 
-  const activeNavId = currentPage === 'people' ? 'people' : activeSection
-  /* White header when on People page or when scrolled past home hero (Projects, News, etc.) */
-  const useWhiteHeader =
-    currentPage === 'people' || (currentPage === 'home' && activeSection !== 'home')
-  const headerTheme = useWhiteHeader ? 'navbar--people' : 'navbar--home'
+  const activeNavId =
+    currentPage === 'people' || currentPage === 'join-us' ? currentPage : activeSection
+  /* Blue header only at very top of home (hero); white header in about area and elsewhere */
+  const useBlueHeader = currentPage === 'home' && atTopOfHome
+  const headerTheme = useBlueHeader ? 'navbar--home' : 'navbar--people'
 
   return (
     <div className="app-root">
@@ -122,12 +131,19 @@ function App() {
         </div>
       </header>
       <main className="page">
-        {currentPage === 'people' ? (
+        {currentPage === 'people' && (
           <>
             <PeopleSection />
             <SiteFooter />
           </>
-        ) : (
+        )}
+        {currentPage === 'join-us' && (
+          <>
+            <JoinUsSection />
+            <SiteFooter />
+          </>
+        )}
+        {currentPage === 'home' && (
           <>
             <HomeHero />
             <HomeAbout />

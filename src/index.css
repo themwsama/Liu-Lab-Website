@@ -1,14 +1,37 @@
+/* Figma design tokens: Color Style (1-12601), Typography (1-12613) */
 :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text',
-    'Helvetica Neue', Arial, sans-serif;
+  /* Color Style */
+  --color-primary: #406eb4;
+  --color-primary-container: #d9e2f0;
+  --color-on-primary-container: #244475;
+  --color-on-primary: #ffffff;
+  --color-neutral: #333333;
+  --color-ink-darkest: #090a0a;
+  --color-surface: #ffffff;
+
+  /* Typography – Montserrat (Figma Typography 1-12613) */
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #0b1020;
-  background-color: #f5f7fb;
+  color: var(--color-neutral);
+  background-color: #f2f2f2;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Type scale – use these classes for consistent formatting */
+.type-title-1 { font-size: 28px; font-weight: 600; line-height: 32px; }
+.type-title-2 { font-size: 24px; font-weight: 600; line-height: 24px; }
+.type-subtitle-1 { font-size: 20px; font-weight: 500; line-height: 20px; }
+.type-subtitle-2 { font-size: 16px; font-weight: 500; line-height: 20px; }
+.type-body-1 { font-size: 16px; font-weight: 400; line-height: 20px; }
+.type-body-1-bold { font-size: 14px; font-weight: 600; line-height: 20px; }
+.type-body-2 { font-size: 14px; font-weight: 400; line-height: 20px; }
+.type-body-small { font-size: 13px; font-weight: 400; line-height: 18px; }
+.type-button { font-size: 16px; font-weight: 600; line-height: 24px; }
+.type-tag { font-size: 12px; font-weight: 500; line-height: 16px; }
+.type-small-label { font-size: 10px; font-weight: 500; line-height: 16px; }
 
 *,
 *::before,
