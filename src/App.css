@@ -338,7 +338,7 @@
   width: 100%;
   height: 100%;
   /* Served from Vite public/ root */
-  background-image: url('/home-jie-liu.png');
+  background-image: url('/PeoplePictures/home-jie-liu.png');
   background-size: cover;
   background-position: center;
 }
@@ -583,6 +583,234 @@
 
 .page-section--people {
   background-color: #ffffff;
+}
+
+/* People page layout: sidebar + main (Figma 1-9920) */
+.people-page-layout {
+  display: grid;
+  grid-template-columns: 227px minmax(0, 1fr);
+  gap: 2.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4.5rem;
+  align-items: start;
+}
+
+.people-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.people-page-title {
+  margin: 0 0 1.5rem;
+  font-size: 28px;
+  font-weight: 600;
+  color: #406eb4;
+  line-height: 24px;
+}
+
+.people-subnav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.people-subnav-link {
+  padding: 4px 0;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333333;
+  font-weight: 300;
+  cursor: pointer;
+  text-align: left;
+}
+
+.people-subnav-link--active {
+  color: #406eb4;
+  font-weight: 600;
+}
+
+.people-subnav-link:hover {
+  color: #406eb4;
+}
+
+.people-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.people-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.people-placeholder {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Alumni text-only card (no photo): 160×168, Figma 1-10335 */
+.people-alumni-text-card {
+  width: 160px;
+  min-height: 168px;
+  flex-shrink: 0;
+  background: #ffffff;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.people-alumni-text-card .people-card-name {
+  margin: 0;
+}
+
+.people-alumni-text-card .people-card-role {
+  margin: 0;
+  flex: 1;
+}
+
+.people-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.people-section-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.people-section-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+  line-height: 24px;
+}
+
+/* Figma card: 160px wide, 336px tall, white, shadow 2px 2px 6px rgba(0,0,0,0.15) */
+.people-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 160px));
+  gap: 36px;
+  justify-content: flex-start;
+}
+
+.people-card {
+  width: 160px;
+  flex-shrink: 0;
+  background: #ffffff;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.people-card-image-wrap {
+  width: 160px;
+  height: 160px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #e8ecf4;
+}
+
+.people-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.people-card-body {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-height: 0;
+}
+
+.people-card-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #406eb4;
+  line-height: 24px;
+}
+
+.people-card-role {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 300;
+  color: #000000;
+  line-height: normal;
+  white-space: pre-wrap;
+}
+
+.people-card-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 4px;
+  height: 26px;
+}
+
+.people-card-links a,
+.people-card-links button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #333333;
+  cursor: pointer;
+}
+
+.people-card-links a:hover,
+.people-card-links button:hover {
+  opacity: 0.8;
+}
+
+.people-card-links img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .people-page-layout {
+    grid-template-columns: 1fr;
+    padding-inline: 1rem;
+  }
+
+  .people-cards-grid {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .people-cards-grid {
+    grid-template-columns: repeat(2, 160px);
+    gap: 20px;
+    justify-content: center;
+  }
 }
 
 .section-header {
