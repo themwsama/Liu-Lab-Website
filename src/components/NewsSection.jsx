@@ -47,41 +47,42 @@ function NewsSection() {
         </aside>
 
         <div className="news-main">
-          <div className="news-timeline">
-            <div className="news-timeline-line" />
-            {newsItems.map((item, index) => (
-              <div key={item.id} className="news-row">
-                <div className="news-date-column">
-                  <div className="news-date-dot" />
-                  <span className="news-date-text">{item.date}</span>
+          <div className="news-list-and-cta">
+            <div className="news-timeline">
+              <div className="news-timeline-line" />
+              {newsItems.map((item, index) => (
+                <div key={item.id} className="news-row">
+                  <div className="news-date-column">
+                    <div className="news-date-dot" />
+                    <span className="news-date-text">{item.date}</span>
+                  </div>
+
+                  <article className="news-card">
+                    <div className="news-card-content">
+                      {item.featured && (
+                        <div className="news-card-star" aria-hidden="true">
+                          ★
+                        </div>
+                      )}
+                      <h3 className="news-card-title">{item.title}</h3>
+                      <div className="news-card-tag">{item.tag}</div>
+                    </div>
+                    <div className="news-card-image-wrapper">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="news-card-image"
+                      />
+                    </div>
+                  </article>
                 </div>
-
-                <article className="news-card">
-                  <div className="news-card-content">
-                    {item.featured && (
-                      <div className="news-card-star" aria-hidden="true">
-                        ★
-                      </div>
-                    )}
-                    <h3 className="news-card-title">{item.title}</h3>
-                    <div className="news-card-tag">{item.tag}</div>
-                  </div>
-                  <div className="news-card-image-wrapper">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="news-card-image"
-                    />
-                  </div>
-                </article>
-              </div>
-            ))}
-          </div>
-
-          <div className="news-see-more-row">
-            <button type="button" className="news-see-more-btn">
-              See More
-            </button>
+              ))}
+            </div>
+            <div className="news-see-more-column">
+              <button type="button" className="news-see-more-btn">
+                See More
+              </button>
+            </div>
           </div>
         </div>
       </div>

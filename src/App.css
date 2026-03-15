@@ -595,6 +595,8 @@
   margin: 0 auto;
   padding: 2rem 1.5rem 4.5rem;
   align-items: start;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 .people-sidebar {
@@ -642,12 +644,69 @@
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .people-section {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+/* Single frame holding all profiles: top (PI + Staff), middle (PhD), bottom (RA). All sections share same width so cards align when shrunk. */
+.people-profiles-frame {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.people-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 3rem;
+  align-items: start;
+  min-width: 0;
+}
+
+.people-top-left,
+.people-top-right {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.people-top-right .people-section-header {
+  margin-bottom: 1rem;
+}
+
+.people-top-right .people-cards-grid--staff {
+  grid-template-columns: repeat(2, 160px);
+  justify-content: flex-start;
+}
+
+.people-middle,
+.people-bottom {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Stack PI and Staff at 1100px so when shrunk, all sections are full-width and pfp align with PhD/RA */
+@media (max-width: 1100px) {
+  .people-top {
+    grid-template-columns: 1fr;
+  }
+
+  .people-top-right .people-cards-grid--staff {
+    justify-content: flex-start;
+  }
 }
 
 .people-placeholder {
@@ -867,6 +926,7 @@
 
 .people-card {
   width: 160px;
+  height: 336px;
   flex-shrink: 0;
   background: #ffffff;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
@@ -892,6 +952,20 @@
   display: block;
 }
 
+.people-card-image--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-container);
+}
+
+.people-card-image-initials {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
 .people-card-body {
   padding: 0 12px;
   display: flex;
@@ -899,6 +973,7 @@
   gap: 4px;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
 .people-card-name {
@@ -907,6 +982,9 @@
   font-weight: 600;
   color: var(--color-primary);
   line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .people-card-role {
@@ -916,6 +994,10 @@
   color: #000000;
   line-height: normal;
   white-space: pre-wrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .people-card-links {
@@ -950,6 +1032,7 @@
   width: 20px;
   height: 20px;
   object-fit: contain;
+  filter: brightness(0);
 }
 
 @media (max-width: 900px) {
@@ -959,7 +1042,7 @@
   }
 
   .people-cards-grid {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -967,7 +1050,7 @@
   .people-cards-grid {
     grid-template-columns: repeat(2, 160px);
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -1036,6 +1119,7 @@
 .page-section--projects {
   background-color: #ffffff;
   color: var(--color-neutral);
+  padding: 4.5rem 2.5rem;
 }
 
 .page-section--projects .page-section-inner {
@@ -1083,6 +1167,17 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.projects-list-and-cta {
+  display: flex;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
+.projects-grid-wrapper {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .projects-grid {
@@ -1150,20 +1245,25 @@
   font-weight: 500;
 }
 
-.projects-see-more-row {
+.projects-see-more-column {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 140px;
 }
 
 .projects-see-more-btn {
   border: none;
   border-radius: 8px;
-  padding: 8px 32px;
+  padding: 12px 40px;
   font-size: 20px;
   font-weight: 600;
   background-color: var(--color-primary);
   color: #ffffff;
   cursor: pointer;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .projects-see-more-btn:hover {
@@ -1172,10 +1272,16 @@
 
 .page-section--news {
   background-color: #ffffff;
+  padding: 4.5rem 2.5rem;
+}
+
+.page-section--news .page-section-inner {
+  max-width: 1440px;
 }
 
 .page-section--publications {
   background-color: #ffffff;
+  padding: 4.5rem 2.5rem;
 }
 .page-section--publications .page-section-inner {
   max-width: 1440px;
@@ -1209,7 +1315,7 @@
 
 .pub-list-and-cta {
   display: flex;
-  gap: 1.5rem;
+  gap: 2.5rem;
   align-items: stretch;
 }
 
@@ -1292,8 +1398,8 @@
 .pub-see-more-btn {
   border: none;
   border-radius: 8px;
-  padding: 4px 40px;
-  font-size: 16px;
+  padding: 12px 40px;
+  font-size: 20px;
   font-weight: 600;
   background-color: var(--color-primary);
   color: #ffffff;
@@ -1309,7 +1415,9 @@
 .pub-see-more-column {
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 140px;
 }
 
 .news-layout {
@@ -1336,8 +1444,24 @@
   gap: 1.75rem;
 }
 
+.news-list-and-cta {
+  display: flex;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
 .news-timeline {
+  flex: 1 1 auto;
+  min-width: 0;
   position: relative;
+}
+
+.news-see-more-column {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 140px;
 }
 
 .news-timeline-line {
@@ -1458,12 +1582,14 @@
 .news-see-more-btn {
   border: none;
   border-radius: 8px;
-  padding: 8px 32px;
+  padding: 12px 40px;
   font-size: 20px;
   font-weight: 600;
   background-color: var(--color-primary);
   color: #ffffff;
   cursor: pointer;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .news-see-more-btn:hover {

@@ -1,8 +1,28 @@
 import { useState } from 'react'
 import '../App.css'
 
+function PersonCardImage({ src, alt }) {
+  const [error, setError] = useState(false)
+  if (error) {
+    return (
+      <div className="people-card-image people-card-image--placeholder" aria-hidden>
+        <span className="people-card-image-initials">{alt || '?'}</span>
+      </div>
+    )
+  }
+  return (
+    <img
+      src={src}
+      alt=""
+      className="people-card-image"
+      loading="lazy"
+      onError={() => setError(true)}
+    />
+  )
+}
+
 const BASE = import.meta.env.BASE_URL
-const P = (path) => BASE + 'PeoplePictures/' + path
+const P = (path) => BASE + 'PeoplePictures/' + encodeURIComponent(path)
 const SOCIAL = {
   git: BASE + 'socialLogos/git.svg',
   google: BASE + 'socialLogos/google.svg',
@@ -232,19 +252,20 @@ function PeopleIcon() {
 }
 
 function PersonCard({ name, role, image }) {
+  const initials = name.split(' ').map((n) => n[0]).join('').slice(0, 2)
   return (
     <article className="people-card">
       <div className="people-card-image-wrap">
-        <img src={image} alt="" className="people-card-image" loading="lazy" />
+        <PersonCardImage src={image} alt={initials} />
       </div>
       <div className="people-card-body">
         <h3 className="people-card-name">{name}</h3>
         <p className="people-card-role">{role}</p>
         <div className="people-card-links">
-          <a href="#github" aria-label="GitHub"><img src={SOCIAL.git} alt="" /></a>
           <a href="#scholar" aria-label="Google Scholar"><img src={SOCIAL.google} alt="" /></a>
-          <button type="button" aria-label="CV"><img src={SOCIAL.cv} alt="" /></button>
+          <a href="#github" aria-label="GitHub"><img src={SOCIAL.git} alt="" /></a>
           <a href="#email" aria-label="Email"><img src={SOCIAL.email} alt="" /></a>
+          <button type="button" aria-label="CV"><img src={SOCIAL.cv} alt="" /></button>
         </div>
       </div>
     </article>
@@ -334,17 +355,49 @@ function PeopleSection() {
             <p className="people-placeholder">Content for outreach coming soon.</p>
           )}
 
-          {subNav === 'current' && SECTIONS.map((sec) => {
-            const members = PEOPLE.filter((p) => p.category === sec.id)
-            if (members.length === 0) return null
-            return (
-              <div key={sec.id} className="people-section">
+          {subNav === 'current' && (
+            <div className="people-profiles-frame">
+              <div className="people-top">
+                <div className="people-top-left">
+                  <div className="people-section-header">
+                    <PeopleIcon />
+                    <h3 className="people-section-title">Principal Investigator</h3>
+                  </div>
+                  <div className="people-cards-grid">
+                    {PEOPLE.filter((p) => p.category === 'pi').map((person) => (
+                      <PersonCard
+                        key={person.name}
+                        name={person.name}
+                        role={person.role}
+                        image={person.image}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="people-top-right">
+                  <div className="people-section-header">
+                    <PeopleIcon />
+                    <h3 className="people-section-title">Staff</h3>
+                  </div>
+                  <div className="people-cards-grid people-cards-grid--staff">
+                    {PEOPLE.filter((p) => p.category === 'staff').map((person) => (
+                      <PersonCard
+                        key={person.name}
+                        name={person.name}
+                        role={person.role}
+                        image={person.image}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="people-middle">
                 <div className="people-section-header">
                   <PeopleIcon />
-                  <h3 className="people-section-title">{sec.title}</h3>
+                  <h3 className="people-section-title">Ph.D. Candidate</h3>
                 </div>
                 <div className="people-cards-grid">
-                  {members.map((person) => (
+                  {PEOPLE.filter((p) => p.category === 'phd').map((person) => (
                     <PersonCard
                       key={person.name}
                       name={person.name}
@@ -354,8 +407,24 @@ function PeopleSection() {
                   ))}
                 </div>
               </div>
-            )
-          })}
+              <div className="people-bottom">
+                <div className="people-section-header">
+                  <PeopleIcon />
+                  <h3 className="people-section-title">Research Assistant</h3>
+                </div>
+                <div className="people-cards-grid">
+                  {PEOPLE.filter((p) => p.category === 'ra').map((person) => (
+                    <PersonCard
+                      key={person.name}
+                      name={person.name}
+                      role={person.role}
+                      image={person.image}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
