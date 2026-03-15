@@ -2,6 +2,12 @@ import '../App.css'
 
 const highlightSrc = import.meta.env.BASE_URL + 'home-lab-highlight.png'
 const underlineSrc = import.meta.env.BASE_URL + 'home-name-underline.svg'
+const socialLogos = {
+  google: import.meta.env.BASE_URL + 'socialLogos/google.svg',
+  git: import.meta.env.BASE_URL + 'socialLogos/git.svg',
+  email: import.meta.env.BASE_URL + 'socialLogos/email.svg',
+  cv: import.meta.env.BASE_URL + 'socialLogos/cv.svg',
+}
 
 function HomeAbout() {
   return (
@@ -85,84 +91,18 @@ function HomeAbout() {
           <div className="home-about-links">
             <button type="button" className="home-about-links-icon" aria-label="Google Scholar">
               <span className="sr-only">Google Scholar</span>
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M4 11L12 4L20 11L12 14L4 11Z"
-                  fill="currentColor"
-                  fillOpacity="0.85"
-                />
-                <rect
-                  x="7"
-                  y="13"
-                  width="10"
-                  height="6"
-                  rx="1"
-                  fill="currentColor"
-                />
-              </svg>
+              <img src={socialLogos.google} alt="" className="home-about-links-img" />
             </button>
             <button type="button" className="home-about-links-icon" aria-label="GitHub">
               <span className="sr-only">GitHub</span>
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="9"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  fill="currentColor"
-                  fillOpacity="0.1"
-                />
-                <path
-                  d="M10 16.5C8.3 17 8.3 15.7 7.5 15.5M14 16.5C15.7 17 15.7 15.7 16.5 15.5"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                />
-                <circle cx="9.5" cy="11" r="0.9" fill="currentColor" />
-                <circle cx="14.5" cy="11" r="0.9" fill="currentColor" />
-              </svg>
+              <img src={socialLogos.git} alt="" className="home-about-links-img" />
             </button>
             <button type="button" className="home-about-links-icon" aria-label="Email">
               <span className="sr-only">Email</span>
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <rect
-                  x="4"
-                  y="6"
-                  width="16"
-                  height="12"
-                  rx="1.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-                <path
-                  d="M5 7.5L11.4 12.2C11.76 12.48 12.24 12.48 12.6 12.2L19 7.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <img src={socialLogos.email} alt="" className="home-about-links-img" />
             </button>
-            <button type="button" className="home-about-links-btn" aria-label="Curriculum Vitae">
-              CV
+            <button type="button" className="home-about-links-btn home-about-links-btn--icon" aria-label="Curriculum Vitae">
+              <img src={socialLogos.cv} alt="CV" className="home-about-links-img" />
             </button>
           </div>
           <div className="home-about-title">
