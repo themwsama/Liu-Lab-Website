@@ -6,7 +6,7 @@ const BASE = import.meta.env.BASE_URL
 const projectCards = [
   {
     id: 'mai-t1d',
-    title: 'Multimodal AI in T1D (MAI-T1D)',
+    title: 'MAI-T1D',
     description:
       'AI models to examine information like genetics, proteins and changes in individual cells to better map how T1D develops.',
     image: BASE + 'Multimodal AI in T1D (MAI - T1D).png',
@@ -14,7 +14,7 @@ const projectCards = [
   },
   {
     id: 'pankbase',
-    title: 'PanKbase',
+    title: 'Pankbase',
     description:
       'A comprehensive, centralized resource for the study of the human pancreas and diabetes.',
     image: BASE + 'Pankbase.png',
@@ -38,19 +38,19 @@ const projectCards = [
   },
   {
     id: 'project-5',
-    title: 'Knowledge Graph for Biomedical Discovery',
+    title: 'Genomic Knowledge Graph',
     description:
-      'Integrating heterogeneous biomedical data into a unified knowledge graph to support discovery and hypothesis generation.',
+      'A graph database for human genome, epigenome, transcriptome, and 4D nucleome.',
     image: BASE + 'Genomic Knowledge Graph.png',
-    tags: ['Knowledge Graphs', 'Biomedical Applications'],
+    tags: ['Highlight', 'Knowledge Graphs'],
   },
   {
     id: 'project-6',
-    title: 'Machine Learning for Genomics',
+    title: 'Genomic Literature Knowledge Base',
     description:
-      'Deep learning methods for genomic variant interpretation and phenotype prediction from multi-omics data.',
+      'A comprehensive resource that integrates over 263 million biomedical terms and 14.6 million biomedical relationships.',
     image: BASE + 'Genomic Literature Knowledge Base.png',
-    tags: ['Machine Learning', 'Computational Genomics'],
+    tags: ['Highlight', 'Knowledge Graphs'],
   },
 ]
 
@@ -58,7 +58,15 @@ const INITIAL_VISIBLE = 4
 
 function ProjectsSection() {
   const [expanded, setExpanded] = useState(false)
-  const visibleCards = expanded ? projectCards : projectCards.slice(0, INITIAL_VISIBLE)
+  const [activeFilter, setActiveFilter] = useState('Highlight')
+
+  const filtered = projectCards.filter((project) =>
+    activeFilter ? project.tags.includes(activeFilter) : true
+  )
+  const visibleCards =
+    expanded || filtered.length <= INITIAL_VISIBLE
+      ? filtered
+      : filtered.slice(0, INITIAL_VISIBLE)
 
   return (
     <section id="projects" className="page-section page-section--projects">
@@ -66,12 +74,29 @@ function ProjectsSection() {
         <aside className="projects-sidebar">
           <h2 className="projects-title">Projects</h2>
           <ul className="projects-filter-list">
-            <li className="projects-filter projects-filter--active">Highlight</li>
-            <li className="projects-filter">Knowledge Graphs</li>
-            <li className="projects-filter">Multimodal AI</li>
-            <li className="projects-filter">Computational Genomics</li>
-            <li className="projects-filter">Machine Learning</li>
-            <li className="projects-filter">Biomedical Applications</li>
+            {['Highlight', 'Knowledge Graphs', 'Multimodal AI', 'Computational Genomics', 'Machine Learning', 'Biomedical Applications'].map(
+              (label) => (
+                <li
+                  key={label}
+                  className={
+                    activeFilter === label
+                      ? 'projects-filter projects-filter--active'
+                      : 'projects-filter'
+                  }
+                >
+                  <button
+                    type="button"
+                    className="projects-filter-button"
+                    onClick={() => {
+                      setActiveFilter(label)
+                      setExpanded(false)
+                    }}
+                  >
+                    {label}
+                  </button>
+                </li>
+              )
+            )}
           </ul>
         </aside>
 
@@ -85,6 +110,8 @@ function ProjectsSection() {
                       <img
                         src={project.image}
                         alt={project.title}
+                    loading="lazy"
+                    sizes="(max-width: 900px) 100vw, 535px"
                         className="project-card-image"
                       />
                     </div>
@@ -116,6 +143,7 @@ function ProjectsSection() {
                 className="projects-see-more-btn"
                 onClick={() => setExpanded((e) => !e)}
                 aria-expanded={expanded}
+                disabled={filtered.length <= INITIAL_VISIBLE}
               >
                 {expanded ? 'See Less' : 'See More'}
               </button>

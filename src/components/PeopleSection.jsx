@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../App.css'
 
 function PersonCardImage({ src, alt }) {
@@ -289,10 +289,16 @@ function AlumniTextCard({ name, role }) {
 
 function PeopleSection() {
   const [subNav, setSubNav] = useState('current')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setMounted(true))
+    return () => window.cancelAnimationFrame(id)
+  }, [])
 
   return (
     <section id="people" className="page-section page-section--people">
-      <div className="people-page-layout">
+      <div className={`people-page-layout ${mounted ? 'people-fade--visible' : 'people-fade'}`}>
         <aside className="people-sidebar">
           <h2 className="people-page-title">People</h2>
           <nav className="people-subnav" aria-label="People sub-navigation">

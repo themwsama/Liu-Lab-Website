@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import './App.css'
 import HomeHero from './components/HomeHero.jsx'
 import HomeAbout from './components/HomeAbout.jsx'
-import ProjectsSection from './components/ProjectsSection.jsx'
-import NewsSection from './components/NewsSection.jsx'
-import PublicationsSection from './components/PublicationsSection.jsx'
-import PeopleSection from './components/PeopleSection.jsx'
-import JoinUsSection from './components/JoinUsSection.jsx'
+const ProjectsSection = lazy(() => import('./components/ProjectsSection.jsx'))
+const NewsSection = lazy(() => import('./components/NewsSection.jsx'))
+const PublicationsSection = lazy(() => import('./components/PublicationsSection.jsx'))
+const PeopleSection = lazy(() => import('./components/PeopleSection.jsx'))
+const JoinUsSection = lazy(() => import('./components/JoinUsSection.jsx'))
 import SiteFooter from './components/SiteFooter.jsx'
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [atTopOfHome, setAtTopOfHome] = useState(true)
   const [pendingScrollTarget, setPendingScrollTarget] = useState(null)
+  const [pageReady, setPageReady] = useState(false)
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id)
@@ -34,8 +35,28 @@ function App() {
   }
 
   const handleNavClick = (id) => {
-    if (id === 'people' || id === 'join-us') {
-      setCurrentPage(id)
+    // Special case: from Publications, clicking News should behave like home-section navigation
+    if (currentPage === 'publications' && id === 'news') {
+      setCurrentPage('home')
+      setPendingScrollTarget('news')
+      return
+    }
+
+    // Symmetric case: from News (expanded), clicking Publications should go to the home Publications section
+    if (currentPage === 'news' && id === 'publications') {
+      setCurrentPage('home')
+      setPendingScrollTarget('publications')
+      return
+    }
+
+    if (
+      id === 'people' ||
+      id === 'join-us' ||
+      (id === 'news' && currentPage !== 'home') ||
+      (id === 'publications' && currentPage !== 'home')
+    ) {
+      const targetPage = id === 'news' || id === 'publications' ? id : id
+      setCurrentPage(targetPage)
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
     }
@@ -100,10 +121,24 @@ function App() {
   }, [currentPage, pendingScrollTarget])
 
   const activeNavId =
-    currentPage === 'people' || currentPage === 'join-us' ? currentPage : activeSection
+    currentPage === 'people' ||
+    currentPage === 'join-us' ||
+    currentPage === 'news' ||
+    currentPage === 'publications'
+      ? currentPage
+      : activeSection
   /* Blue header only at very top of home (hero); white header in about area and elsewhere */
   const useBlueHeader = currentPage === 'home' && atTopOfHome
   const headerTheme = useBlueHeader ? 'navbar--home' : 'navbar--people'
+
+  // Simple fade-in when page (and its lazy-loaded chunks) have mounted
+  useEffect(() => {
+    setPageReady(false)
+    const id = window.requestAnimationFrame(() => {
+      setPageReady(true)
+    })
+    return () => window.cancelAnimationFrame(id)
+  }, [currentPage])
 
   return (
     <div className="app-root">
@@ -131,28 +166,64 @@ function App() {
         </div>
       </header>
       <main className="page">
-        {currentPage === 'people' && (
-          <>
-            <PeopleSection />
-            <SiteFooter />
-          </>
-        )}
-        {currentPage === 'join-us' && (
-          <>
-            <JoinUsSection />
-            <SiteFooter />
-          </>
-        )}
-        {currentPage === 'home' && (
-          <>
-            <HomeHero />
-            <HomeAbout />
-            <ProjectsSection />
-            <NewsSection />
-            <PublicationsSection />
-            <SiteFooter />
-          </>
-        )}
+        <Suspense fallback={<div className="page-loading">Loading…</div>}>
+          <div
+            className={
+              currentPage === 'people'
+                ? undefined
+                : pageReady
+                  ? 'page-fade page-fade--visible'
+                  : 'page-fade'
+            }
+          >
+            {currentPage === 'people' && (
+              <>
+                <PeopleSection />
+                <SiteFooter />
+              </>
+            )}
+            {currentPage === 'join-us' && (
+              <>
+                <JoinUsSection />
+                <SiteFooter />
+              </>
+            )}
+            {currentPage === 'news' && (
+              <>
+                <NewsSection variant="full" />
+                <SiteFooter />
+              </>
+            )}
+            {currentPage === 'publications' && (
+              <>
+                <PublicationsSection variant="full" />
+                <SiteFooter />
+              </>
+            )}
+            {currentPage === 'home' && (
+              <>
+                <HomeHero />
+                <HomeAbout />
+                <ProjectsSection />
+                <NewsSection
+                  variant="compact"
+                  onSeeMore={() => {
+                    setCurrentPage('news')
+                    window.scrollTo({ top: 0, behavior: 'auto' })
+                  }}
+                />
+                <PublicationsSection
+                  variant="compact"
+                  onSeeMore={() => {
+                    setCurrentPage('publications')
+                    window.scrollTo({ top: 0, behavior: 'auto' })
+                  }}
+                />
+                <SiteFooter />
+              </>
+            )}
+          </div>
+        </Suspense>
       </main>
     </div>
   )

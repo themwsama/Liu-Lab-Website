@@ -60,6 +60,8 @@ function HomeAbout() {
                   <img
                     src={highlightSrc}
                     alt="Lab highlight"
+                    loading="lazy"
+                    sizes="(max-width: 900px) 100vw, 320px"
                     className="home-about-highlights-image"
                   />
                   <div className="home-about-highlights-nav">
@@ -85,6 +87,7 @@ function HomeAbout() {
             <img
               src={underlineSrc}
               alt=""
+              loading="lazy"
               className="home-about-name-underline"
             />
           </div>

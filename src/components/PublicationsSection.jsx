@@ -35,9 +35,12 @@ const publications = [
     meta: 'iScience, 02/2024',
     image: import.meta.env.BASE_URL + 'Ecor_Cover.jpg',
   },
-]
+] // In future we can append more items for the full page
 
-function PublicationsSection() {
+function PublicationsSection({ variant = 'compact', onSeeMore }) {
+  const showSeeMore = variant === 'compact' && typeof onSeeMore === 'function'
+  const itemsToRender =
+    variant === 'compact' ? publications.slice(0, 3) : publications
   return (
     <section
       id="publications"
@@ -51,7 +54,7 @@ function PublicationsSection() {
         <div className="pub-main">
           <div className="pub-list-and-cta">
             <div className="pub-list">
-              {publications.map((pub) => (
+              {itemsToRender.map((pub) => (
                 <article key={pub.id} className="pub-card">
                   <div className="pub-card-content">
                     <h3 className="pub-card-title">{pub.title}</h3>
@@ -70,6 +73,8 @@ function PublicationsSection() {
                     <img
                       src={pub.image}
                       alt={pub.title}
+                      loading="lazy"
+                      sizes="(max-width: 900px) 100vw, 269px"
                       className="pub-card-image"
                     />
                   </div>
@@ -77,11 +82,17 @@ function PublicationsSection() {
               ))}
             </div>
 
-            <div className="pub-see-more-column">
-              <button type="button" className="pub-see-more-btn">
-                See More
-              </button>
-            </div>
+            {showSeeMore && (
+              <div className="pub-see-more-column">
+                <button
+                  type="button"
+                  className="pub-see-more-btn"
+                  onClick={onSeeMore}
+                >
+                  See More
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

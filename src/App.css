@@ -7,6 +7,23 @@
 
 .page {
   padding-top: 84px; /* match fixed nav height so sections are not hidden */
+  min-height: 100vh;
+}
+
+.page-fade {
+  opacity: 0;
+  transition: opacity 220ms ease-out;
+}
+
+.page-fade--visible {
+  opacity: 1;
+}
+
+.page-loading {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  font-size: 18px;
+  color: var(--color-neutral);
 }
 
 /* Single shared header: same size/position on all pages; only theme (color) changes */
@@ -649,6 +666,15 @@
   overflow-x: hidden;
 }
 
+.people-fade {
+  opacity: 0;
+  transition: opacity 420ms ease-out 120ms;
+}
+
+.people-fade--visible {
+  opacity: 1;
+}
+
 .people-section {
   display: flex;
   flex-direction: column;
@@ -1163,6 +1189,21 @@
   color: var(--color-primary);
 }
 
+.projects-filter-button {
+  border: none;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.projects-filter-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .projects-main {
   display: flex;
   flex-direction: column;
@@ -1211,7 +1252,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 140px;
+  min-height: 160px;
 }
 
 .project-title {
@@ -1230,7 +1271,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 4px;
+  margin-top: auto;
 }
 
 .project-tag {

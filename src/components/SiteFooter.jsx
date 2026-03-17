@@ -8,15 +8,15 @@ function SiteFooter() {
           <h2 className="footer-heading">Supported by</h2>
           <div className="footer-logos">
             <div className="footer-logos-row">
-              <img src={import.meta.env.BASE_URL + 'logos/1-png 2.png'} alt="National Human Genome Research Institute" className="footer-logo" />
-              <img src={import.meta.env.BASE_URL + 'logos/2-png 1.png'} alt="NIH Common Fund" className="footer-logo" />
-              <img src={import.meta.env.BASE_URL + 'logos/3-png 1.png'} alt="NIH NIDDK" className="footer-logo" />
+              <img src={import.meta.env.BASE_URL + 'logos/1-png 2.png'} alt="National Human Genome Research Institute" className="footer-logo" loading="lazy" />
+              <img src={import.meta.env.BASE_URL + 'logos/2-png 1.png'} alt="NIH Common Fund" className="footer-logo" loading="lazy" />
+              <img src={import.meta.env.BASE_URL + 'logos/3-png 1.png'} alt="NIH NIDDK" className="footer-logo" loading="lazy" />
             </div>
             <div className="footer-logos-row">
-              <img src={import.meta.env.BASE_URL + 'logos/4-png 1.png'} alt="MIDAS" className="footer-logo" />
-              <img src={import.meta.env.BASE_URL + 'logos/5-png 1.png'} alt="MCubed" className="footer-logo" />
-              <img src={import.meta.env.BASE_URL + 'logos/6-png 2.png'} alt="Helmsley Charitable Trust" className="footer-logo" />
-              <img src={import.meta.env.BASE_URL + 'logos/7-png 1.png'} alt="U.S. Department of Energy" className="footer-logo" />
+              <img src={import.meta.env.BASE_URL + 'logos/4-png 1.png'} alt="MIDAS" className="footer-logo" loading="lazy" />
+              <img src={import.meta.env.BASE_URL + 'logos/5-png 1.png'} alt="MCubed" className="footer-logo" loading="lazy" />
+              <img src={import.meta.env.BASE_URL + 'logos/6-png 2.png'} alt="Helmsley Charitable Trust" className="footer-logo" loading="lazy" />
+              <img src={import.meta.env.BASE_URL + 'logos/7-png 1.png'} alt="U.S. Department of Energy" className="footer-logo" loading="lazy" />
             </div>
           </div>
         </div>
