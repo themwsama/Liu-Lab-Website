@@ -1,16 +1,19 @@
-# React + Vite
+# Liu Lab Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the official website for the **Liu Lab**.
 
-Currently, two official plugins are available:
+The site highlights the lab’s research and includes sections for **Projects**, **News**, **Publications**, and **People**, with dedicated pages for expanded **News** and **Publications** timelines.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Contact
 
-## React Compiler
+- Email: `drjieliu@umich.edu`
+- Address: Palmer Commons 2035D, Ann Arbor, MI 48109
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Socials
 
-## Expanding the ESLint configuration
+The website includes links for:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Google Scholar
+- GitHub
+- Email
+- CV
