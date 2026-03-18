@@ -1,6 +1,6 @@
 import '../App.css'
 
-const highlightSrc = import.meta.env.BASE_URL + 'home-lab-highlight.png'
+const highlightSrc = import.meta.env.BASE_URL + 'Multimodal AI in T1D (MAI - T1D).png'
 const underlineSrc = import.meta.env.BASE_URL + 'home-name-underline.svg'
 const socialLogos = {
   google: import.meta.env.BASE_URL + 'socialLogos/google.svg',

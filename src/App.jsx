@@ -25,6 +25,7 @@ function App() {
   const [atTopOfHome, setAtTopOfHome] = useState(true)
   const [pendingScrollTarget, setPendingScrollTarget] = useState(null)
   const [pageReady, setPageReady] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id)
@@ -35,6 +36,7 @@ function App() {
   }
 
   const handleNavClick = (id) => {
+    setMobileMenuOpen(false)
     // Special case: from Publications, clicking News should behave like home-section navigation
     if (currentPage === 'publications' && id === 'news') {
       setCurrentPage('home')
@@ -147,6 +149,15 @@ function App() {
           <div className="navbar-logo">
             <span className="navbar-lab-name">Liu Lab</span>
           </div>
+          <button
+            type="button"
+            className="navbar-menu-btn"
+            aria-label="Open menu"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((v) => !v)}
+          >
+            <span className="navbar-menu-icon" aria-hidden="true" />
+          </button>
           <nav className="navbar-links">
             {sections.map((section) => (
               <button
@@ -165,6 +176,48 @@ function App() {
           </nav>
         </div>
       </header>
+      {mobileMenuOpen && (
+        <div
+          className="mobile-nav-overlay"
+          role="presentation"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            className="mobile-nav-drawer"
+            role="dialog"
+            aria-label="Site menu"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mobile-nav-header">
+              <span className="mobile-nav-title">Menu</span>
+              <button
+                type="button"
+                className="mobile-nav-close"
+                aria-label="Close menu"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="mobile-nav-links">
+              {sections.map((section) => (
+                <button
+                  key={section.id}
+                  type="button"
+                  className={
+                    activeNavId === section.id
+                      ? 'mobile-nav-link mobile-nav-link--active'
+                      : 'mobile-nav-link'
+                  }
+                  onClick={() => handleNavClick(section.id)}
+                >
+                  {section.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <main className="page">
         <Suspense fallback={<div className="page-loading">Loading…</div>}>
           <div

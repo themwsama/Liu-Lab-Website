@@ -117,6 +117,7 @@ function NewsSection({ variant = 'compact', onSeeMore }) {
         </aside>
 
         <div className="news-main">
+          <h2 className="news-title-heading news-title-heading--mobile">News</h2>
           <div className="news-list-and-cta">
             <div className="news-timeline">
               <div className="news-timeline-line" />
@@ -129,12 +130,38 @@ function NewsSection({ variant = 'compact', onSeeMore }) {
 
                   <article className="news-card">
                     <div className="news-card-content">
+                      <div className="news-mobile-meta">
+                        <span className="news-mobile-dot" aria-hidden="true" />
+                        <span className="news-mobile-date">{item.date}</span>
+                        {item.featured && (
+                          <div className="news-card-star" aria-hidden="true">
+                            ★
+                          </div>
+                        )}
+                        <div className="news-mobile-tag">{item.tag}</div>
+                      </div>
                       {item.featured && (
                         <div className="news-card-star" aria-hidden="true">
                           ★
                         </div>
                       )}
-                      <h3 className="news-card-title">{item.title}</h3>
+                      <h3 className="news-card-title news-card-title--desktop">
+                        {item.title}
+                      </h3>
+                      <div className="news-mobile-bottom">
+                        <h3 className="news-card-title news-card-title--mobile">
+                          {item.title}
+                        </h3>
+                        <div className="news-mobile-thumb" aria-hidden="true">
+                          <img
+                            src={item.image}
+                            alt=""
+                            loading="lazy"
+                            sizes="73px"
+                            className="news-mobile-thumb-img"
+                          />
+                        </div>
+                      </div>
                       <div className="news-card-tag">{item.tag}</div>
                     </div>
                     <div className="news-card-image-wrapper">

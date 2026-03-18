@@ -101,6 +101,7 @@ function ProjectsSection() {
         </aside>
 
         <div className="projects-main">
+          <h2 className="projects-title projects-title--mobile">Projects</h2>
           <div className="projects-list-and-cta">
             <div className="projects-grid-wrapper">
               <div className="projects-grid">

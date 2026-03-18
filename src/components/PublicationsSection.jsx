@@ -52,12 +52,25 @@ function PublicationsSection({ variant = 'compact', onSeeMore }) {
         </aside>
 
         <div className="pub-main">
+          <h2 className="pub-title-heading pub-title-heading--mobile">Publications</h2>
           <div className="pub-list-and-cta">
             <div className="pub-list">
               {itemsToRender.map((pub) => (
                 <article key={pub.id} className="pub-card">
                   <div className="pub-card-content">
-                    <h3 className="pub-card-title">{pub.title}</h3>
+                    <h3 className="pub-card-title pub-card-title--desktop">{pub.title}</h3>
+                    <div className="pub-mobile-bottom">
+                      <h3 className="pub-card-title pub-card-title--mobile">{pub.title}</h3>
+                      <div className="pub-mobile-thumb" aria-hidden="true">
+                        <img
+                          src={pub.image}
+                          alt=""
+                          loading="lazy"
+                          sizes="73px"
+                          className="pub-mobile-thumb-img"
+                        />
+                      </div>
+                    </div>
                     <p className="pub-card-authors">{pub.authors}</p>
                     <div className="pub-card-meta-row">
                       <span className="pub-card-meta-text">{pub.meta}</span>
