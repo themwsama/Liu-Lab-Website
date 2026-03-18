@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import '../App.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -105,15 +106,66 @@ const newsItems = [
 ]
 
 function NewsSection({ variant = 'compact', onSeeMore }) {
+  const [activeFilter, setActiveFilter] = useState('All')
   const showSeeMore = variant === 'compact' && typeof onSeeMore === 'function'
-  const itemsToRender =
+  const filters = useMemo(
+    () => [
+      'All',
+      'Lab Milestones',
+      'Awards & Honors',
+      'Publications',
+      'Talks & Events',
+      'People & Career',
+    ],
+    []
+  )
+
+  const getCategory = (tag) => {
+    const t = String(tag || '').toLowerCase()
+    if (t.includes('milestone')) return 'Lab Milestones'
+    if (t.includes('award') || t.includes('honor')) return 'Awards & Honors'
+    if (t.includes('publication')) return 'Publications'
+    if (
+      t.includes('talk') ||
+      t.includes('event') ||
+      t.includes('conference') ||
+      t.includes('symposium')
+    )
+      return 'Talks & Events'
+    return 'People & Career'
+  }
+
+  const baseItems =
     variant === 'compact' ? newsItems.slice(0, 4) : newsItems
+
+  const itemsToRender =
+    variant === 'full' && activeFilter !== 'All'
+      ? baseItems.filter((n) => getCategory(n.tag) === activeFilter)
+      : baseItems
 
   return (
     <section id="news" className="page-section page-section--news">
       <div className="page-section-inner news-layout">
         <aside className="news-sidebar">
           <h2 className="news-title-heading">News</h2>
+          {variant === 'full' && (
+            <nav className="news-filter-list" aria-label="News filters">
+              {filters.map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={
+                    activeFilter === label
+                      ? 'news-filter-btn news-filter-btn--active'
+                      : 'news-filter-btn'
+                  }
+                  onClick={() => setActiveFilter(label)}
+                >
+                  {label}
+                </button>
+              ))}
+            </nav>
+          )}
         </aside>
 
         <div className="news-main">
