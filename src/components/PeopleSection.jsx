@@ -159,6 +159,12 @@ const PEOPLE = [
   },
   {
     category: 'ra',
+    name: 'Matthew Wong',
+    role: 'Department of Statistics',
+    image: P('matthewSmallPfp.jpg'),
+  },
+  {
+    category: 'ra',
     name: 'Luya Zhang',
     role: 'School of Information',
     image: P('profile photo - Luya Zhang 1.png'),
