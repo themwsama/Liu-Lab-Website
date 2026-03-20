@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import '../App.css'
 import WorkIcon from '@mui/icons-material/Work'
 
@@ -27,9 +28,19 @@ const OPEN_POSITIONS = [
 ]
 
 function JoinUsSection() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setMounted(true), 50)
+    return () => window.clearTimeout(t)
+  }, [])
+
   return (
     <section id="join-us" className="page-section page-section--join-us">
-      <div className="join-us-inner">
+      <div
+        className={`join-us-entrance ${mounted ? 'join-fade--visible' : 'join-fade'}`}
+      >
+        <div className="join-us-inner">
         <aside className="join-us-sidebar">
           <h2 className="join-us-page-title">Join Us</h2>
         </aside>
@@ -76,6 +87,7 @@ function JoinUsSection() {
             </article>
           ))}
           </div>
+        </div>
         </div>
       </div>
     </section>

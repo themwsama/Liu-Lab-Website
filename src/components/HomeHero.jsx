@@ -6,8 +6,10 @@ function HomeHero() {
       <div className="home-frame">
         <div className="home-bg-image" aria-hidden="true" />
         <div className="home-title-wrapper">
-          <h1 className="home-title">Liu Lab</h1>
-          <p className="home-subtitle">AI for Medical Disease</p>
+          <div className="home-hero-title-reveal">
+            <h1 className="home-title">Liu Lab</h1>
+            <p className="home-subtitle">AI for Medical Disease</p>
+          </div>
         </div>
       </div>
     </section>

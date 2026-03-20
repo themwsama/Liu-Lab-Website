@@ -228,10 +228,17 @@ function App() {
         </div>
       )}
       <main className="page">
-        <Suspense fallback={<div className="page-loading">Loading…</div>}>
+        <Suspense
+          fallback={
+            <div className="page-loading" aria-live="polite" aria-busy="true">
+              <span className="page-loading-dot" />
+              <span className="page-loading-text">Loading…</span>
+            </div>
+          }
+        >
           <div
             className={
-              currentPage === 'people'
+              currentPage === 'people' || currentPage === 'join-us'
                 ? undefined
                 : pageReady
                   ? 'page-fade page-fade--visible'
@@ -276,7 +283,7 @@ function App() {
               </>
             )}
             {currentPage === 'home' && (
-              <>
+              <div className="home-entrance">
                 <HomeHero />
                 <HomeAbout />
                 <ProjectsSection
@@ -301,7 +308,7 @@ function App() {
                   }}
                 />
                 <SiteFooter />
-              </>
+              </div>
             )}
           </div>
         </Suspense>

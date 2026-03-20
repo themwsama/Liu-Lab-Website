@@ -298,8 +298,9 @@ function PeopleSection() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const id = window.requestAnimationFrame(() => setMounted(true))
-    return () => window.cancelAnimationFrame(id)
+    /* Brief pause after chunk paint so transition isn’t “Loading…” → instant cards */
+    const t = window.setTimeout(() => setMounted(true), 50)
+    return () => window.clearTimeout(t)
   }, [])
 
   return (
