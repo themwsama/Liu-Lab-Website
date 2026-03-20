@@ -1,66 +1,14 @@
 import { useState } from 'react'
 import '../App.css'
-
-const BASE = import.meta.env.BASE_URL
-
-const projectCards = [
-  {
-    id: 'mai-t1d',
-    title: 'MAI-T1D',
-    description:
-      'AI models to examine information like genetics, proteins and changes in individual cells to better map how T1D develops.',
-    image: BASE + 'Multimodal AI in T1D (MAI - T1D).png',
-    tags: ['Highlight', 'Multimodal AI'],
-  },
-  {
-    id: 'pankbase',
-    title: 'Pankbase',
-    description:
-      'A comprehensive, centralized resource for the study of the human pancreas and diabetes.',
-    image: BASE + 'Pankbase.png',
-    tags: ['Highlight'],
-  },
-  {
-    id: 'celllink',
-    title: 'CellLink',
-    description:
-      'A novel single-cell multi-omics data integration method that normalizes feature profiles to align scales across datasets.',
-    image: BASE + 'CellLink_Cover_Figure.png',
-    tags: ['Highlight', 'Computational Genomics'],
-  },
-  {
-    id: 'epcot',
-    title: 'EPCOT',
-    description:
-      'A generalizable framework to comprehensively predict epigenome, chromatin organization, and transcriptome.',
-    image: BASE + 'Ecor_Cover.jpg',
-    tags: ['Highlight', 'Computational Genomics'],
-  },
-  {
-    id: 'project-5',
-    title: 'Genomic Knowledge Graph',
-    description:
-      'A graph database for human genome, epigenome, transcriptome, and 4D nucleome.',
-    image: BASE + 'Genomic Knowledge Graph.png',
-    tags: ['Highlight', 'Knowledge Graphs'],
-  },
-  {
-    id: 'project-6',
-    title: 'Genomic Literature Knowledge Base',
-    description:
-      'A comprehensive resource that integrates over 263 million biomedical terms and 14.6 million biomedical relationships.',
-    image: BASE + 'Genomic Literature Knowledge Base.png',
-    tags: ['Highlight', 'Knowledge Graphs'],
-  },
-]
+import { PROJECT_CARDS } from '../data/projects.js'
 
 const INITIAL_VISIBLE = 4
 
-function ProjectsSection() {
+function ProjectsSection({ onProjectClick }) {
   const [expanded, setExpanded] = useState(false)
   const [activeFilter, setActiveFilter] = useState('Highlight')
 
-  const filtered = projectCards.filter((project) =>
+  const filtered = PROJECT_CARDS.filter((project) =>
     activeFilter ? project.tags.includes(activeFilter) : true
   )
   const visibleCards =
@@ -106,7 +54,21 @@ function ProjectsSection() {
             <div className="projects-grid-wrapper">
               <div className="projects-grid">
                 {visibleCards.map((project) => (
-                  <article key={project.id} className="project-card">
+                  <article
+                    key={project.id}
+                    className={`project-card${typeof onProjectClick === 'function' ? ' project-card--clickable' : ''}`}
+                    role={typeof onProjectClick === 'function' ? 'link' : undefined}
+                    tabIndex={typeof onProjectClick === 'function' ? 0 : undefined}
+                    aria-label={`Open ${project.title} project details`}
+                    onClick={() => onProjectClick?.(project.id)}
+                    onKeyDown={(e) => {
+                      if (!onProjectClick) return
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        onProjectClick(project.id)
+                      }
+                    }}
+                  >
                     <div className="project-card-image-wrapper">
                       <img
                         src={project.image}

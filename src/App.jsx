@@ -7,6 +7,7 @@ const NewsSection = lazy(() => import('./components/NewsSection.jsx'))
 const PublicationsSection = lazy(() => import('./components/PublicationsSection.jsx'))
 const PeopleSection = lazy(() => import('./components/PeopleSection.jsx'))
 const JoinUsSection = lazy(() => import('./components/JoinUsSection.jsx'))
+const ProjectDetailSection = lazy(() => import('./components/ProjectDetailSection.jsx'))
 import SiteFooter from './components/SiteFooter.jsx'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   const [pendingScrollTarget, setPendingScrollTarget] = useState(null)
   const [pageReady, setPageReady] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [projectPageId, setProjectPageId] = useState(null)
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id)
@@ -37,6 +39,11 @@ function App() {
 
   const handleNavClick = (id) => {
     setMobileMenuOpen(false)
+
+    if (currentPage === 'project') {
+      setProjectPageId(null)
+    }
+
     // Special case: from Publications, clicking News should behave like home-section navigation
     if (currentPage === 'publications' && id === 'news') {
       setCurrentPage('home')
@@ -123,12 +130,14 @@ function App() {
   }, [currentPage, pendingScrollTarget])
 
   const activeNavId =
-    currentPage === 'people' ||
-    currentPage === 'join-us' ||
-    currentPage === 'news' ||
-    currentPage === 'publications'
-      ? currentPage
-      : activeSection
+    currentPage === 'project'
+      ? 'projects'
+      : currentPage === 'people' ||
+          currentPage === 'join-us' ||
+          currentPage === 'news' ||
+          currentPage === 'publications'
+        ? currentPage
+        : activeSection
   /* Blue header only at very top of home (hero); white header in about area and elsewhere */
   const useBlueHeader = currentPage === 'home' && atTopOfHome
   const headerTheme = useBlueHeader ? 'navbar--home' : 'navbar--people'
@@ -253,11 +262,30 @@ function App() {
                 <SiteFooter />
               </>
             )}
+            {currentPage === 'project' && projectPageId && (
+              <>
+                <ProjectDetailSection
+                  projectId={projectPageId}
+                  onBack={() => {
+                    setCurrentPage('home')
+                    setProjectPageId(null)
+                    setPendingScrollTarget('projects')
+                  }}
+                />
+                <SiteFooter />
+              </>
+            )}
             {currentPage === 'home' && (
               <>
                 <HomeHero />
                 <HomeAbout />
-                <ProjectsSection />
+                <ProjectsSection
+                  onProjectClick={(id) => {
+                    setCurrentPage('project')
+                    setProjectPageId(id)
+                    window.scrollTo({ top: 0, behavior: 'auto' })
+                  }}
+                />
                 <NewsSection
                   variant="compact"
                   onSeeMore={() => {
