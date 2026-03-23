@@ -4,7 +4,8 @@ function SiteFooter() {
   return (
     <footer id="contact" className="page-footer">
       <div className="page-section-inner footer-layout">
-        <div className="footer-supported">
+        {/* Figma 1-9872: same label column + shared content column for Supported by & Contact */}
+        <div className="footer-row">
           <h2 className="footer-heading">Supported by</h2>
           <div className="footer-logos">
             <div className="footer-logos-row">
@@ -21,10 +22,10 @@ function SiteFooter() {
           </div>
         </div>
 
-        <div className="footer-contact">
+        <div className="footer-row">
           <h2 className="footer-heading">Contact</h2>
           <div className="footer-contact-lines">
-            <div className="footer-contact-line">
+            <div className="footer-contact-line footer-contact-line--email">
               <span className="footer-contact-icon" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -33,7 +34,7 @@ function SiteFooter() {
               </span>
               <span className="footer-contact-text">drjieliu@umich.edu</span>
             </div>
-            <div className="footer-contact-line">
+            <div className="footer-contact-line footer-contact-line--address">
               <span className="footer-contact-icon" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -41,7 +42,7 @@ function SiteFooter() {
                 </svg>
               </span>
               <span className="footer-contact-text">
-                Palmer Commons 2035D, Ann Arbor, MI 48109
+                NCRC Bldg 520, Room 3212, 1600 Huron Parkway, Ann Arbor, MI 48109
               </span>
             </div>
           </div>

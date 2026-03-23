@@ -252,6 +252,49 @@ const ALUMNI_RA = [
   { name: 'Yijun Pan', role: 'Machine Learning Engineer\nDepartment of Electrical Engineering and Computer Science' },
 ]
 
+/* Outreach (Figma 1-11054): 2×2 grid; `image` null = placeholder until assets are chosen */
+const OUTREACH_ITEMS = [
+  {
+    id: 'belgrade',
+    caption: 'Liu Lab in Belgrade Bioinformatics Conference',
+    image: null,
+  },
+  {
+    id: 'applied-bioinformatics',
+    caption:
+      'Liu Lab presenting “Applied Bioinformatics & Public Health Microbiology”',
+    image: null,
+  },
+  {
+    id: 'conference-13-a',
+    caption: 'Liu Lab at 13th International Conference on…',
+    image: null,
+  },
+  {
+    id: 'conference-13-b',
+    caption: 'Liu Lab at 13th International Conference on…',
+    image: null,
+  },
+]
+
+function OutreachMedia({ image }) {
+  if (image) {
+    return (
+      <img
+        src={image}
+        alt=""
+        className="people-outreach-img"
+        loading="lazy"
+      />
+    )
+  }
+  return (
+    <div className="people-outreach-placeholder" aria-hidden="true">
+      <span className="people-outreach-placeholder-label">Image placeholder</span>
+    </div>
+  )
+}
+
 function PeopleIcon() {
   return (
     <svg width="24" height="24" className="people-section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -371,7 +414,22 @@ function PeopleSection() {
           )}
 
           {subNav === 'outreach' && (
-            <p className="people-placeholder">Content for outreach coming soon.</p>
+            <div className="people-outreach">
+              <ul className="people-outreach-grid" role="list">
+                {OUTREACH_ITEMS.map((item) => (
+                  <li key={item.id} className="people-outreach-item">
+                    <figure className="people-outreach-figure">
+                      <div className="people-outreach-media">
+                        <OutreachMedia image={item.image} />
+                      </div>
+                      <figcaption className="people-outreach-caption">
+                        {item.caption}
+                      </figcaption>
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {subNav === 'current' && (
