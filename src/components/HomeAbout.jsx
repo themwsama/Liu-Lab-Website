@@ -57,18 +57,32 @@ function HomeAbout() {
                   <span>Lab Highlights</span>
                 </div>
                 <div className="home-about-highlights-card">
-                  <img
-                    src={highlightSrc}
-                    alt="Lab highlight"
-                    loading="lazy"
-                    sizes="(max-width: 900px) 100vw, 320px"
-                    className="home-about-highlights-image"
-                  />
-                  <div className="home-about-highlights-nav">
-                    <button type="button" className="home-about-highlights-nav-btn">
+                  <div
+                    className="home-about-highlights-carousel"
+                    role="group"
+                    aria-label="Lab highlights"
+                  >
+                    <button
+                      type="button"
+                      className="home-about-highlights-nav-btn"
+                      aria-label="Previous highlight"
+                    >
                       ‹
                     </button>
-                    <button type="button" className="home-about-highlights-nav-btn">
+                    <div className="home-about-highlights-image-wrap">
+                      <img
+                        src={highlightSrc}
+                        alt="Lab highlight"
+                        loading="lazy"
+                        sizes="(max-width: 900px) 100vw, 320px"
+                        className="home-about-highlights-image"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="home-about-highlights-nav-btn"
+                      aria-label="Next highlight"
+                    >
                       ›
                     </button>
                   </div>
@@ -110,7 +124,9 @@ function HomeAbout() {
           </div>
           <div className="home-about-title">
             <p>Associate Professor</p>
-            <p>University of Michigan, Ann Arbor</p>
+            <p>
+              University of Michigan, Ann{'\u00A0'}Arbor
+            </p>
           </div>
           <p className="home-about-affiliation">
             Computational Medicine and Bioinformatics, Medical School

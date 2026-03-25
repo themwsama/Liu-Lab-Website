@@ -1,57 +1,98 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import '../App.css'
-
-const publications = [
-  {
-    id: 'ophthal-2024',
-    title:
-      'Liquid biopsy for proliferative diabetic retinopathy: single-cell transcriptomics of human vitreous reveals inflammatory T cell signature',
-    authors:
-      'R Haliyur, D Parkinson, F Ma, J Xu, Q Li, Y Huang, L Tsoi, R Bogle, J Liu, J Gudjonsson, R C Rao',
-    meta: 'Ophthalmology Science, 10/2024',
-    type: 'Ophthalmology Science',
-    year: '2024',
-    tags: ['DOI', 'PMID'],
-    image: import.meta.env.BASE_URL + 'Multimodal AI in T1D (MAI - T1D).png',
-  },
-  {
-    id: 'cntools-2024',
-    title:
-      'CNTools: A computational toolbox for cellular neighborhood analysis from multiplexed images',
-    authors:
-      'Y Tao, F Feng, X Luo, C Reihsmann, A Hopkirk, J Cartailler, M Brissova, S Parker, D Saunders, J Liu',
-    meta: 'PLoS Computational Biology, 08/2024',
-    type: 'PLoS Computational Biology',
-    year: '2024',
-    tags: ['DOI', 'PMID', 'Code', 'Project'],
-    image: import.meta.env.BASE_URL + 'Genomic Literature Knowledge Base.png',
-  },
-  {
-    id: 'cochlea-2024',
-    title:
-      '3D reconstruction of the mouse cochlea from scRNA-seq data suggests morphogen-based principles in apex-to-base specification',
-    authors: 'S Wang, S Chakraborty, Y Fu, M Lee, J Liu, J Waldhaus',
-    meta: 'Developmental Cell, 06/2024',
-    type: 'Developmental Cell',
-    year: '2024',
-    tags: ['DOI', 'PMID'],
-    image: import.meta.env.BASE_URL + 'Genomic Knowledge Graph.png',
-  },
-  {
-    id: 'inner-ear-2024',
-    title:
-      'Mapping the developmental potential of mouse inner ear organoids at single-cell resolution',
-    authors: 'J Waldhaus*, Linghua Jiang*, L Liu, J Liu, R Duncan',
-    meta: 'iScience, 02/2024',
-    type: 'iScience',
-    year: '2024',
-    tags: ['DOI', 'PMID', 'Project'],
-    image: import.meta.env.BASE_URL + 'Ecor_Cover.jpg',
-  },
-] // In future we can append more items for the full page
+import { PUBLICATIONS } from '../data/publications.js'
 
 function normalize(s) {
   return String(s || '').trim().toLowerCase()
+}
+
+function useClickOutside(ref, onOutside, active) {
+  useEffect(() => {
+    if (!active) return
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) onOutside()
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [ref, onOutside, active])
+}
+
+function PubFilterDropdown({
+  placeholder,
+  value,
+  options,
+  onChange,
+  id,
+  ariaLabel,
+}) {
+  const [open, setOpen] = useState(false)
+  const wrapRef = useRef(null)
+
+  const close = useCallback(() => setOpen(false), [])
+  useClickOutside(wrapRef, close, open)
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') close()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, close])
+
+  const label =
+    value === '' || value == null ? placeholder : String(value)
+
+  return (
+    <div
+      ref={wrapRef}
+      className={`pub-dropdown${open ? ' pub-dropdown--open' : ''}`}
+    >
+      <button
+        type="button"
+        id={id}
+        className="pub-dropdown-trigger"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={ariaLabel}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="pub-dropdown-trigger-text">{label}</span>
+        <span className="pub-dropdown-chevron" aria-hidden />
+      </button>
+      {open && (
+        <ul className="pub-dropdown-menu" role="listbox" aria-labelledby={id}>
+          {options.map((opt) => {
+            const selected =
+              (value === '' || value == null ? '' : value) === opt.value
+            return (
+              <li key={opt.value === '' ? '__all' : opt.value} role="none">
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  className={
+                    selected
+                      ? 'pub-dropdown-option pub-dropdown-option--selected'
+                      : 'pub-dropdown-option'
+                  }
+                  onClick={() => {
+                    onChange(opt.value)
+                    setOpen(false)
+                  }}
+                >
+                  <span className="pub-dropdown-check" aria-hidden>
+                    {selected ? '✓' : '\u00a0'}
+                  </span>
+                  <span className="pub-dropdown-option-label">{opt.label}</span>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
 }
 
 function PublicationsSection({ variant = 'compact', onSeeMore }) {
@@ -62,22 +103,40 @@ function PublicationsSection({ variant = 'compact', onSeeMore }) {
   const [activeYear, setActiveYear] = useState('')
 
   const baseItems =
-    variant === 'compact' ? publications.slice(0, 3) : publications
+    variant === 'compact' ? PUBLICATIONS.slice(0, 3) : PUBLICATIONS
 
   const typeOptions = useMemo(() => {
-    const allTags = publications.flatMap((p) => p.tags || [])
+    const allTags = PUBLICATIONS.flatMap((p) => p.tags || [])
     const tags = Array.from(new Set(allTags)).filter(Boolean)
     tags.sort((a, b) => String(a).localeCompare(String(b)))
     return ['All', ...tags]
   }, [])
 
   const yearOptions = useMemo(() => {
-    const years = Array.from(new Set(publications.map((p) => p.year))).filter(
+    const years = Array.from(new Set(PUBLICATIONS.map((p) => p.year))).filter(
       Boolean,
     )
     years.sort((a, b) => String(b).localeCompare(String(a)))
     return ['All', ...years]
   }, [])
+
+  const typeDropdownOptions = useMemo(
+    () =>
+      typeOptions.map((t) => ({
+        value: t === 'All' ? '' : t,
+        label: t,
+      })),
+    [typeOptions],
+  )
+
+  const yearDropdownOptions = useMemo(
+    () =>
+      yearOptions.map((y) => ({
+        value: y === 'All' ? '' : y,
+        label: y,
+      })),
+    [yearOptions],
+  )
 
   const itemsToRender = useMemo(() => {
     if (variant !== 'full') return baseItems
@@ -126,44 +185,26 @@ function PublicationsSection({ variant = 'compact', onSeeMore }) {
                 </div>
               </div>
 
-              <div className="pub-toolbar-control">
-                <div className="pub-toolbar-select-wrap">
-                  <select
-                    className="pub-toolbar-select"
-                    value={activeType}
-                    onChange={(e) => setActiveType(e.target.value)}
-                    aria-label="Filter by type"
-                  >
-                    <option value="">Type</option>
-                    {typeOptions
-                      .filter((t) => t !== 'All')
-                      .map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="pub-toolbar-control pub-toolbar-control--dropdown">
+                <PubFilterDropdown
+                  id="pub-filter-type"
+                  placeholder="Type"
+                  value={activeType}
+                  options={typeDropdownOptions}
+                  onChange={setActiveType}
+                  ariaLabel="Filter by type"
+                />
               </div>
 
-              <div className="pub-toolbar-control">
-                <div className="pub-toolbar-select-wrap">
-                  <select
-                    className="pub-toolbar-select"
-                    value={activeYear}
-                    onChange={(e) => setActiveYear(e.target.value)}
-                    aria-label="Filter by year"
-                  >
-                    <option value="">Year</option>
-                    {yearOptions
-                      .filter((y) => y !== 'All')
-                      .map((y) => (
-                      <option key={y} value={y}>
-                        {y}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="pub-toolbar-control pub-toolbar-control--dropdown">
+                <PubFilterDropdown
+                  id="pub-filter-year"
+                  placeholder="Year"
+                  value={activeYear}
+                  options={yearDropdownOptions}
+                  onChange={setActiveYear}
+                  ariaLabel="Filter by year"
+                />
               </div>
             </div>
           )}
