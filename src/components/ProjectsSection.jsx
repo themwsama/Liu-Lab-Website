@@ -4,20 +4,30 @@ import { PROJECT_CARDS } from '../data/projects.js'
 
 const INITIAL_VISIBLE = 4
 
-function ProjectsSection({ onProjectClick }) {
-  const [expanded, setExpanded] = useState(false)
+function ProjectsSection({
+  variant = 'compact',
+  onProjectClick,
+  onSeeMore,
+}) {
   const [activeFilter, setActiveFilter] = useState('Highlight')
 
   const filtered = PROJECT_CARDS.filter((project) =>
     activeFilter ? project.tags.includes(activeFilter) : true
   )
+
   const visibleCards =
-    expanded || filtered.length <= INITIAL_VISIBLE
+    variant === 'full'
       ? filtered
       : filtered.slice(0, INITIAL_VISIBLE)
 
+  const showSeeMore =
+    variant === 'compact' && typeof onSeeMore === 'function'
+
   return (
-    <section id="projects" className="page-section page-section--projects">
+    <section
+      id="projects"
+      className={`page-section page-section--projects${variant === 'full' ? ' page-section--projects-full' : ''}`}
+    >
       <div className="page-section-inner projects-layout">
         <aside className="projects-sidebar">
           <h2 className="projects-title">Projects</h2>
@@ -35,10 +45,7 @@ function ProjectsSection({ onProjectClick }) {
                   <button
                     type="button"
                     className="projects-filter-button"
-                    onClick={() => {
-                      setActiveFilter(label)
-                      setExpanded(false)
-                    }}
+                    onClick={() => setActiveFilter(label)}
                   >
                     {label}
                   </button>
@@ -100,17 +107,17 @@ function ProjectsSection({ onProjectClick }) {
                 ))}
               </div>
             </div>
-            <div className="projects-see-more-column">
-              <button
-                type="button"
-                className="projects-see-more-btn"
-                onClick={() => setExpanded((e) => !e)}
-                aria-expanded={expanded}
-                disabled={filtered.length <= INITIAL_VISIBLE}
-              >
-                {expanded ? 'See Less' : 'See More'}
-              </button>
-            </div>
+            {showSeeMore && (
+              <div className="projects-see-more-column">
+                <button
+                  type="button"
+                  className="projects-see-more-btn"
+                  onClick={onSeeMore}
+                >
+                  See More
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

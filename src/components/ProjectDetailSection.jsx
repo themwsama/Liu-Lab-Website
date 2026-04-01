@@ -1,4 +1,5 @@
 import '../App.css'
+import { projectImage } from '../lib/assetUrl.js'
 import { getProjectById } from '../data/projects.js'
 
 function PankbaseDetail({ onBack }) {
@@ -14,7 +15,7 @@ function PankbaseDetail({ onBack }) {
 
       <div className="project-detail-hero project-detail-hero--pankbase">
         <img
-          src={import.meta.env.BASE_URL + 'Pankbase.png'}
+          src={projectImage('Pankbase.png')}
           alt=""
           className="project-detail-hero-img"
           loading="eager"

@@ -2,6 +2,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import '../App.css'
 import { PUBLICATIONS } from '../data/publications.js'
 
+/** Pills shown on cards (Figma publications list). */
+const CARD_LINK_TAGS = new Set([
+  'DOI',
+  'PMID',
+  'Code',
+  'Project',
+  'Web Portal',
+  'Dataset',
+])
+
 function normalize(s) {
   return String(s || '').trim().toLowerCase()
 }
@@ -103,7 +113,7 @@ function PublicationsSection({ variant = 'compact', onSeeMore }) {
   const [activeYear, setActiveYear] = useState('')
 
   const baseItems =
-    variant === 'compact' ? PUBLICATIONS.slice(0, 3) : PUBLICATIONS
+    variant === 'compact' ? PUBLICATIONS.slice(0, 4) : PUBLICATIONS
 
   const typeOptions = useMemo(() => {
     const allTags = PUBLICATIONS.flatMap((p) => p.tags || [])
@@ -211,43 +221,62 @@ function PublicationsSection({ variant = 'compact', onSeeMore }) {
 
           <div className="pub-list-and-cta">
             <div className="pub-list">
-              {itemsToRender.map((pub) => (
-                <article key={pub.id} className="pub-card">
-                  <div className="pub-card-content">
-                    <h3 className="pub-card-title pub-card-title--desktop">{pub.title}</h3>
-                    <div className="pub-mobile-bottom">
-                      <h3 className="pub-card-title pub-card-title--mobile">{pub.title}</h3>
-                      <div className="pub-mobile-thumb" aria-hidden="true">
+              {itemsToRender.map((pub) => {
+                const cardLinkTags = (pub.tags || []).filter((t) =>
+                  CARD_LINK_TAGS.has(t),
+                )
+                return (
+                  <article key={pub.id} className="pub-card">
+                    <div className="pub-card-content">
+                      <h3 className="pub-card-title pub-card-title--desktop">
+                        {pub.title}
+                      </h3>
+                      <div className="pub-mobile-bottom">
+                        <h3 className="pub-card-title pub-card-title--mobile">
+                          {pub.title}
+                        </h3>
+                        <div className="pub-mobile-thumb" aria-hidden="true">
+                          <img
+                            src={pub.image}
+                            alt=""
+                            loading="lazy"
+                            sizes="(max-width: 900px) 88px, 180px"
+                            className="pub-mobile-thumb-img"
+                          />
+                        </div>
+                      </div>
+                      <p className="pub-card-authors">{pub.authors}</p>
+                      <div className="pub-card-meta-row">
+                        <span className="pub-card-meta-text">{pub.meta}</span>
+                        {cardLinkTags.length > 0 ? (
+                          <div className="pub-card-meta-links">
+                            {cardLinkTags.map((tag) => (
+                              <button
+                                key={tag}
+                                type="button"
+                                className="pub-pill"
+                              >
+                                {tag}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className="pub-card-image-wrapper">
+                      <div className="pub-card-image-slot">
                         <img
                           src={pub.image}
                           alt=""
                           loading="lazy"
-                          sizes="73px"
-                          className="pub-mobile-thumb-img"
+                          sizes="(max-width: 900px) 100vw, 180px"
+                          className="pub-card-image"
                         />
                       </div>
                     </div>
-                    <p className="pub-card-authors">{pub.authors}</p>
-                    <div className="pub-card-meta-row">
-                      <span className="pub-card-meta-text">{pub.meta}</span>
-                      {(pub.tags || []).map((tag) => (
-                        <button key={tag} type="button" className="pub-pill">
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="pub-card-image-wrapper">
-                    <img
-                      src={pub.image}
-                      alt={pub.title}
-                      loading="lazy"
-                      sizes="(max-width: 900px) 100vw, 269px"
-                      className="pub-card-image"
-                    />
-                  </div>
-                </article>
-              ))}
+                  </article>
+                )
+              })}
 
               {!hasResults && (
                 <div className="pub-empty">

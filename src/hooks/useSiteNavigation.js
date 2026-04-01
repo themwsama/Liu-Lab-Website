@@ -45,11 +45,36 @@ export function useSiteNavigation() {
       return
     }
 
+    if (currentPage === 'publications' && id === 'projects') {
+      setCurrentPage('home')
+      setPendingScrollTarget('projects')
+      return
+    }
+
+    if (currentPage === 'projects' && id === 'publications') {
+      setCurrentPage('home')
+      setPendingScrollTarget('publications')
+      return
+    }
+
+    if (currentPage === 'news' && id === 'projects') {
+      setCurrentPage('home')
+      setPendingScrollTarget('projects')
+      return
+    }
+
+    if (currentPage === 'projects' && id === 'news') {
+      setCurrentPage('home')
+      setPendingScrollTarget('news')
+      return
+    }
+
     if (
       id === 'people' ||
       id === 'join-us' ||
       (id === 'news' && currentPage !== 'home') ||
-      (id === 'publications' && currentPage !== 'home')
+      (id === 'publications' && currentPage !== 'home') ||
+      (id === 'projects' && currentPage !== 'home')
     ) {
       setCurrentPage(id)
       window.scrollTo({ top: 0, behavior: 'auto' })
@@ -117,7 +142,8 @@ export function useSiteNavigation() {
       : currentPage === 'people' ||
           currentPage === 'join-us' ||
           currentPage === 'news' ||
-          currentPage === 'publications'
+          currentPage === 'publications' ||
+          currentPage === 'projects'
         ? currentPage
         : activeSection
 

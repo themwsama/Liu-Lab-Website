@@ -6,7 +6,7 @@ import {
   OUTREACH_ITEMS,
   PEOPLE,
 } from '../data/people.js'
-import { SOCIAL_LOGO_URLS as SOCIAL } from '../data/socialUrls.js'
+import { PersonSocialLinks } from './PersonSocialLinks.jsx'
 
 function PersonCardImage({ src, alt }) {
   const [error, setError] = useState(false)
@@ -67,12 +67,7 @@ function PersonCard({ name, role, image }) {
       <div className="people-card-body">
         <h3 className="people-card-name">{name}</h3>
         <p className="people-card-role">{role}</p>
-        <div className="people-card-links">
-          <a href="#scholar" aria-label="Google Scholar"><img src={SOCIAL.google} alt="" /></a>
-          <a href="#github" aria-label="GitHub"><img src={SOCIAL.git} alt="" /></a>
-          <a href="#email" aria-label="Email"><img src={SOCIAL.email} alt="" /></a>
-          <button type="button" aria-label="CV"><img src={SOCIAL.cv} alt="" /></button>
-        </div>
+        <PersonSocialLinks name={name} />
       </div>
     </article>
   )

@@ -145,6 +145,19 @@ function App() {
                 <SiteFooter />
               </>
             )}
+            {currentPage === 'projects' && (
+              <>
+                <ProjectsSection
+                  variant="full"
+                  onProjectClick={(id) => {
+                    setCurrentPage('project')
+                    setProjectPageId(id)
+                    window.scrollTo({ top: 0, behavior: 'auto' })
+                  }}
+                />
+                <SiteFooter />
+              </>
+            )}
             {currentPage === 'project' && projectPageId && (
               <>
                 <ProjectDetailSection
@@ -163,6 +176,11 @@ function App() {
                 <HomeHero />
                 <HomeAbout />
                 <ProjectsSection
+                  variant="compact"
+                  onSeeMore={() => {
+                    setCurrentPage('projects')
+                    window.scrollTo({ top: 0, behavior: 'auto' })
+                  }}
                   onProjectClick={(id) => {
                     setCurrentPage('project')
                     setProjectPageId(id)

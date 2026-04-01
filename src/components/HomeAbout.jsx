@@ -1,13 +1,9 @@
 import '../App.css'
+import { projectImage } from '../lib/assetUrl.js'
+import { HomeAboutSocialLinks } from './PersonSocialLinks.jsx'
 
-const highlightSrc = import.meta.env.BASE_URL + 'Multimodal AI in T1D (MAI - T1D).png'
+const highlightSrc = projectImage('Multimodal AI in T1D (MAI - T1D).png')
 const underlineSrc = import.meta.env.BASE_URL + 'home-name-underline.svg'
-const socialLogos = {
-  google: import.meta.env.BASE_URL + 'socialLogos/google.svg',
-  git: import.meta.env.BASE_URL + 'socialLogos/git.svg',
-  email: import.meta.env.BASE_URL + 'socialLogos/email.svg',
-  cv: import.meta.env.BASE_URL + 'socialLogos/cv.svg',
-}
 
 function HomeAbout() {
   return (
@@ -105,23 +101,7 @@ function HomeAbout() {
               className="home-about-name-underline"
             />
           </div>
-          <div className="home-about-links">
-            <button type="button" className="home-about-links-icon" aria-label="Google Scholar">
-              <span className="sr-only">Google Scholar</span>
-              <img src={socialLogos.google} alt="" className="home-about-links-img" />
-            </button>
-            <button type="button" className="home-about-links-icon" aria-label="GitHub">
-              <span className="sr-only">GitHub</span>
-              <img src={socialLogos.git} alt="" className="home-about-links-img" />
-            </button>
-            <button type="button" className="home-about-links-icon" aria-label="Email">
-              <span className="sr-only">Email</span>
-              <img src={socialLogos.email} alt="" className="home-about-links-img" />
-            </button>
-            <button type="button" className="home-about-links-btn home-about-links-btn--icon" aria-label="Curriculum Vitae">
-              <img src={socialLogos.cv} alt="CV" className="home-about-links-img" />
-            </button>
-          </div>
+          <HomeAboutSocialLinks name="Jie Liu" />
           <div className="home-about-title">
             <p>Associate Professor</p>
             <p>

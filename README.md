@@ -30,5 +30,6 @@ Most copy and lists live under `src/data/` (edit the relevant file, then rebuild
 | Project cards and detail metadata | `src/data/projects.js` |
 | Header nav labels and order | `src/data/nav.js` |
 | Social icon paths | `src/data/socialUrls.js` |
+| Per-person Scholar / GitHub / email / CV links | `src/data/personLinks.js` |
 
-Static files (images, PDFs) go in `public/`; URLs are built with `src/lib/assetUrl.js` so paths work on different deploy bases.
+Static files (images, PDFs) go in `public/`; URLs are built with `src/lib/assetUrl.js` so paths work on different deploy bases. CV PDFs can live under `public/Cv/`. **Project** thumbnails and hero art live under `public/ProjectImages/`; reference them with `projectImage('filename')` from `src/lib/assetUrl.js`. **News** card images can go under `public/newsImages/` and use `newsImage('filename')` from the same module.

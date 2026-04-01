@@ -11,3 +11,18 @@ export function assetUrl(...segments) {
 export function peoplePictureUrl(filename) {
   return assetUrl('PeoplePictures', filename)
 }
+
+/** Project card / detail art under `public/ProjectImages/`. */
+export function projectImage(filename) {
+  return assetUrl('ProjectImages', filename)
+}
+
+/** Thumbnails for news cards under `public/newsImages/`. */
+export function newsImage(filename) {
+  return assetUrl('newsImages', filename)
+}
+
+/** Publication card art under `public/publicationimg/`. */
+export function publicationImage(filename) {
+  return assetUrl('publicationimg', filename)
+}

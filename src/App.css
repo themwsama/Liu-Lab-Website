@@ -611,7 +611,7 @@
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background-image: url('/ix_navigation-filled.svg');
+  background-image: url('/logos/ix_navigation-filled.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -696,6 +696,7 @@
   margin-top: 0.75rem;
 }
 
+.home-about-links a.home-about-links-icon,
 .home-about-links-icon {
   display: inline-flex;
   align-items: center;
@@ -707,8 +708,10 @@
   background: none;
   color: inherit;
   cursor: pointer;
+  text-decoration: none;
 }
 
+.home-about-links a.home-about-links-icon:hover,
 .home-about-links-icon:hover {
   opacity: 0.85;
 }
@@ -730,6 +733,7 @@
   filter: none;
 }
 
+.home-about-links a.home-about-links-btn,
 .home-about-links-btn {
   display: inline-flex;
   align-items: center;
@@ -740,8 +744,11 @@
   border: none;
   background: none;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
+.home-about-links a.home-about-links-btn:hover,
 .home-about-links-btn:hover {
   opacity: 0.85;
 }
@@ -801,7 +808,7 @@
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background-image: url('/ic_baseline-highlight.svg');
+  background-image: url('/logos/ic_baseline-highlight.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1930,7 +1937,8 @@
 }
 
 .people-card-links a,
-.people-card-links button {
+.people-card-links button,
+.people-card-links span.people-card-link-inactive {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1941,6 +1949,12 @@
   background: transparent;
   color: var(--color-neutral);
   cursor: pointer;
+  text-decoration: none;
+}
+
+.people-card-links span.people-card-link-inactive {
+  cursor: default;
+  opacity: 0.35;
 }
 
 .people-card-links a:hover,
@@ -2561,26 +2575,40 @@
   flex: 1 1 auto;
 }
 
+/* Publication cards — Figma 1-11277 */
 .pub-card {
   display: flex;
-  height: 180px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 12px 0 12px 20px;
+  min-height: 180px;
   background-color: #ffffff;
+  border: none;
+  border-radius: 0;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .pub-card-content {
-  flex: 1 1 auto;
-  padding: 20px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 829px;
+  align-self: center;
+  justify-content: center;
 }
 
 .pub-card-title {
   margin: 0;
   font-size: 20px;
-  color: var(--color-neutral);
+  font-weight: 500;
+  line-height: 28px;
+  color: #333333;
 }
 
 .pub-card-title--mobile,
@@ -2592,43 +2620,89 @@
 .pub-card-authors {
   margin: 0;
   font-size: 16px;
-  color: var(--color-neutral);
+  line-height: normal;
+  font-weight: 300;
+  color: #333333;
 }
 
 .pub-card-meta-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .pub-card-meta-text {
   font-size: 16px;
-  color: var(--color-neutral);
+  line-height: normal;
+  font-weight: 300;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.pub-card-meta-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
 .pub-pill {
   border-radius: 5px;
-  border: 1px solid var(--color-primary);
+  border: 1px solid #406eb4;
   padding: 0 8px;
   height: 20px;
+  min-height: 20px;
+  box-sizing: border-box;
   font-size: 14px;
-  color: var(--color-primary);
+  font-weight: 500;
+  line-height: 24px;
+  color: #406eb4;
   background-color: #ffffff;
   cursor: pointer;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.pub-pill:hover,
+.pub-pill:focus-visible {
+  background-color: rgba(64, 110, 180, 0.08);
+  outline: none;
+}
+
+/* Figma 1-11287: 269×180 frame; white image mat */
 .pub-card-image-wrapper {
+  flex: 0 0 auto;
   width: 269px;
   height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  flex: 0 0 auto;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.pub-card-image-slot {
+  width: 180px;
+  height: 120px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pub-card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 
 @media (max-width: 900px) {
@@ -2666,10 +2740,18 @@
   }
 
   .pub-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     height: auto;
+    min-height: 0;
+    padding: 0;
     background: transparent;
+    border: none;
+    border-radius: 0;
     box-shadow: none;
     overflow: visible;
+    gap: 0;
   }
 
   .pub-card-image-wrapper {
@@ -2679,6 +2761,7 @@
   .pub-card-content {
     padding: 0;
     width: 100%;
+    gap: 6px;
   }
 
   .pub-card-title--desktop {
@@ -2701,8 +2784,8 @@
 
   .pub-mobile-thumb {
     display: block;
-    width: 73px;
-    height: 60px;
+    width: 88px;
+    height: 72px;
     overflow: hidden;
     flex: 0 0 auto;
   }
@@ -2710,7 +2793,8 @@
   .pub-mobile-thumb-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     display: block;
   }
 
@@ -2724,8 +2808,17 @@
     flex-wrap: wrap;
   }
 
+  .pub-card-meta-text {
+    white-space: normal;
+  }
+
   .pub-pill {
-    height: 24px;
+    min-height: 22px;
+    height: auto;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-color: #406eb4;
+    color: #406eb4;
   }
 }
 
@@ -2816,23 +2909,30 @@
 }
 
 .news-list-and-cta {
-  display: flex;
-  gap: 2.5rem;
-  align-items: stretch;
+  display: block;
+  width: 100%;
 }
 
 .news-timeline {
-  flex: 1 1 auto;
-  min-width: 0;
   position: relative;
+  min-width: 0;
 }
 
-.news-see-more-column {
+/* Extra line past the trailing “See more” dot (Figma home news) */
+.news-timeline--with-see-more {
+  padding-bottom: 12px;
+}
+
+.news-row--see-more {
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.news-see-more-cell {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 140px;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 32px;
 }
 
 .news-mobile-meta {
@@ -2998,11 +3098,10 @@
     display: none;
   }
 
-  .news-see-more-column {
-    width: auto;
+  .news-row--see-more .news-see-more-cell {
     justify-content: center;
-    align-items: center;
-    padding-top: 8px;
+    width: 100%;
+    padding-top: 4px;
   }
 }
 
@@ -3060,6 +3159,10 @@
   background-color: #ffffff;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+}
+
+.news-card--no-image {
+  min-height: 0;
 }
 
 .news-card-content {
@@ -3213,29 +3316,42 @@
     flex: 0 0 auto;
   }
 
+  .page-section--news .news-card--no-image .news-mobile-thumb {
+    display: none !important;
+  }
+
   .page-section--news .news-card-image-wrapper {
     display: none !important;
   }
 
-  .page-section--news .news-see-more-column {
-    width: auto !important;
+  .page-section--news .news-row--see-more .news-see-more-cell {
     justify-content: center !important;
-    align-items: center !important;
+    width: 100% !important;
     padding-top: 8px;
   }
 }
 
+/* Figma 1-11154: 227×156 frame; art centered at ~180×95, not edge-to-edge */
 .news-card-image-wrapper {
   width: 227px;
   height: 156px;
-  overflow: hidden;
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #ffffff;
 }
 
 .news-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 180px;
+  height: 95px;
+  max-width: 180px;
+  max-height: 95px;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
 }
 
 .news-see-more-row {
